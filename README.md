@@ -65,6 +65,34 @@ docker compose exec app alembic upgrade head
 alembic upgrade head
 ```
 
+## Seeding initial data
+
+The repository ships with a fixture file (`fixtures/initial_data.json`) that contains the YouTube provider and three tricking channels: **Adrenaline Tricking**, **Best of Tricking**, and **GV Tricking**.
+
+Because YouTube blocks unauthenticated scraping, channel IDs and metadata must be fetched via the YouTube Data API v3 before seeding.
+
+### Step 1 — populate the fixture with real YouTube data
+
+```bash
+# Requires a YouTube Data API v3 key
+# https://console.cloud.google.com/ → APIs & Services → YouTube Data API v3
+YOUTUBE_API_KEY=AIza... python scripts/fetch_yt_channels.py
+```
+
+This writes the real `account_id`, `uploads_playlist_id`, `description`, and `country_code` for each channel back into `fixtures/initial_data.json`.
+
+### Step 2 — seed the database
+
+```bash
+# Inside the running container (recommended)
+docker compose exec app python scripts/seed.py
+
+# Or locally (DATABASE_URL must point at the DB)
+python scripts/seed.py
+```
+
+The seed script is **idempotent** — running it again updates existing records rather than creating duplicates.
+
 ## API overview
 
 All endpoints require a valid Keycloak Bearer token:
