@@ -1,0 +1,41 @@
+services:
+  app:
+    build:
+      context: .
+      target: development
+    volumes:
+      # Mount source code for hot-reload
+      - .:/app
+      # Persist uploaded media outside the container
+      - media_data:/app/media
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://someservice:someservice@db:5432/someservice
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: someservice
+      POSTGRES_PASSWORD: someservice
+      POSTGRES_DB: someservice
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U someservice -d someservice"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  media_data:
