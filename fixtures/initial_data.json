@@ -1,0 +1,38 @@
+{
+  "_comment": "Run scripts/fetch_yt_channels.py to populate real channel IDs and metadata from the YouTube Data API.",
+  "providers": [
+    {
+      "name": "YouTube",
+      "account_url": "https://www.youtube.com"
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Adrenaline Tricking",
+      "handle": "adrenalinetricking",
+      "account_id": "",
+      "description": "",
+      "country_code": "",
+      "uploads_playlist_id": "",
+      "provider_name": "YouTube"
+    },
+    {
+      "name": "Best of Tricking",
+      "handle": "BestofTricking",
+      "account_id": "",
+      "description": "",
+      "country_code": "",
+      "uploads_playlist_id": "",
+      "provider_name": "YouTube"
+    },
+    {
+      "name": "GV Tricking",
+      "handle": "gvtricking",
+      "account_id": "",
+      "description": "",
+      "country_code": "",
+      "uploads_playlist_id": "",
+      "provider_name": "YouTube"
+    }
+  ]
+}
